@@ -43,7 +43,7 @@ export default function Home() {
 
         {posts?.map((post)=>{
           return(
-            <div>
+            <div key={post.id}>
               <p>
                 {post.description}
               </p>
