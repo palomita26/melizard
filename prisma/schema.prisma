@@ -11,5 +11,5 @@ model posts {
   id          Int       @id @default(autoincrement())
   media       String?
   description String?
-  timestamp   DateTime? @db.Date
+  timestamp   DateTime? @default(now())
 }

@@ -1,5 +1,8 @@
 "use client"
+import { useState } from "react"
 import { useForm, SubmitHandler } from "react-hook-form"
+import { usePosts } from "../hooks/usePosts";
+import toast from "react-hot-toast";
 
 type Inputs = {
   media: string 
@@ -7,17 +10,38 @@ type Inputs = {
 }
 
 export default function CreatePostView() {
+  const {mutate} = usePosts()
+  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
-    watch,
+    reset,
     formState: { errors },
   } = useForm<Inputs>()
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data)
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    if (isLoading) {
+      return
+    }
+    try {
+      setIsLoading(true)
+      const response = await fetch("/api/posts", {
+        method:"POST", 
+        body: JSON.stringify(data)
+      })
+      mutate()
+      toast.success("Your Melizard is posted!")
+      reset()
+    } catch (e) {
+      console.error(e)
+      toast.error("No Melizard posted, sorry :'(")
+    } finally {
+      setIsLoading(false)
+    }
+  }
  return(
     <section
-        id="posts"
-        className="text-sm h-full min-h-[calc(100vh-3rem)] pt-12"
+        id="create"
+        className="text-sm h-full py-12"
       >
         <h1 className="mx-auto text-3xl w-fit pb-10">{"Create Post"}</h1>
       
@@ -31,7 +55,7 @@ export default function CreatePostView() {
       {/* errors will return when field validation fails  */}
       {errors.description && <span className="text-white">This field is required</span>}
 
-      <button className="text-white bg-gray-600" >Submit</button>
+      <button className="text-white bg-gray-600" >{isLoading ? "Loading . . ." : "Submit"}</button>
     </form>
         
       </section>

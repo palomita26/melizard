@@ -1,6 +1,8 @@
+
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,6 +21,7 @@ export default function RootLayout({
     className="scroll-smooth"
     style={{ scrollBehavior: "smooth" }}
     lang="en">
+      <div><Toaster/></div>
       <body className={inter.className}>{children}</body>
     </html>
   );

@@ -8,7 +8,7 @@ type Post = {
 const fetcher = () => fetch("/api/posts").then(res => res.json() as any as Post[])
 
 export const usePosts = () => {
-  const { data, error, isLoading } = useSWR('/api/posts', fetcher)
+  const { data, error, isLoading, mutate } = useSWR('/api/posts', fetcher)
   
-  return {posts: data, error, isLoading} 
+  return {posts: data, error, isLoading, mutate} 
 }
