@@ -1,4 +1,5 @@
 "use client"
+import Image from "next/image";
 import { usePosts } from "../hooks/usePosts";
 
 export default function PostsView() {
@@ -16,9 +17,15 @@ export default function PostsView() {
               <p>
                 {post.description}
               </p>
-              <p>
-                {post.media}
-              </p>
+              
+              <Image
+                src={post.media}
+                alt="Next.js Logo"
+                width={180}
+                height={37}
+                priority
+                unoptimized
+                />
               <p>
                 {post.timestamp}
               </p>

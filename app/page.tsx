@@ -1,6 +1,7 @@
 
 import Image from "next/image";
 import HamburgerMenu from "./components/HamburgerMenu";
+import CreatePostView from "./components/CreatePostView";
 import PostsView from "./components/PostsView";
 
 export default function Home() {
@@ -20,8 +21,8 @@ export default function Home() {
           priority
         />
       </div>
+      <CreatePostView/>
       <PostsView/>
-      
     </main>
   );
 }
