@@ -1,9 +1,21 @@
 "use client"
 import Image from "next/image";
-import { usePosts } from "../hooks/usePosts";
+import { usePosts } from "../hooks/usePosts"
+import toast from "react-hot-toast";
 
 export default function PostsView() {
-    const {posts, error, isLoading} = usePosts()
+    const {posts, error, isLoading, mutate} = usePosts()
+
+     const handleClick = async (postId: number) => {
+        console.log("click ", postId)
+        const response = await fetch("/api/posts", {
+            method:"DELETE", 
+            body: JSON.stringify({postId})
+          })
+          mutate()
+      toast.success("Your Melizard has been deleted.")
+     }
+
  return(
     <section
         id="posts"
@@ -13,7 +25,12 @@ export default function PostsView() {
 
         {posts?.map((post)=>{
           return(
-            <div key={post.id}>
+            <div className="bg-gray-600 mb-10 py-6 px-4" key={post.id}>
+             <div className="flex justify-end cursor-pointer" onClick={() => handleClick(post.id)}> 
+                <div>
+                    delete
+                </div>
+             </div>
               <p>
                 {post.description}
               </p>

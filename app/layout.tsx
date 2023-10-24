@@ -21,8 +21,12 @@ export default function RootLayout({
     className="scroll-smooth"
     style={{ scrollBehavior: "smooth" }}
     lang="en">
+      <body className={inter.className}>
       <div><Toaster/></div>
-      <body className={inter.className}>{children}</body>
+
+        {children}
+        
+      </body>
     </html>
   );
 }
