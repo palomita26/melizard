@@ -21,7 +21,7 @@ export default function PostsView() {
  return(
     <section
         id="posts"
-        className="text-sm h-full w-full pt-12"
+        className="text-sm h-full w-full pt-12 flex flex-col items-center"
       >
         <h1 className="mx-auto text-3xl w-fit pb-10">{"Posts"}</h1>
 
