@@ -38,7 +38,7 @@ export default function PostsView() {
                  </Dialog.Trigger>
                  <Dialog.Portal>
                     <Dialog.Overlay className="bg-black/50 fixed inset-0" />
-                    <Dialog.Content className="!bg-white fixed text-black w-[450px] top-1/2 right-1/2 -translate-y-1/2 translate-x-1/2 p-5 rounded-md">
+                    <Dialog.Content className="!bg-white fixed text-black w-full max-w-sm max-h-[80vh] overflow-y-auto top-1/2 right-1/2 -translate-y-1/2 translate-x-1/2 p-5 rounded-md">
                         <div className="flex items-center justify-between">
                         <Dialog.Title className="text-xl">Delete Melizard</Dialog.Title>
                         <Dialog.Close asChild>
