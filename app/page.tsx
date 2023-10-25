@@ -7,8 +7,8 @@ import PostsView from "./components/PostsView";
 export default function Home() {
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="w-full items-center justify-between font-mono text-sm lg:flex">
+    <main className="flex min-h-screen flex-col items-center justify-between sm:p-24">
+      <div className="w-full items-center justify-between font-mono text-sm lg:flex p-5 sm:p-0">
           <HamburgerMenu />
       </div>
 

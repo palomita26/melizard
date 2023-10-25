@@ -48,14 +48,14 @@ export default function CreatePostView() {
       {/* "handleSubmit" will validate your inputs before invoking "onSubmit" */}
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3 text-black">
       {/* register your input into the hook by invoking the "register" function */}
-      <input placeholder="media" {...register("media")} />
+      <input className="rounded-sm p-2" placeholder="media" {...register("media")} />
 
       {/* include validation with required or other standard HTML validation rules */}
-      <input placeholder="description" {...register("description", { required: true })} />
+      <input className="rounded-sm p-2" placeholder="description" {...register("description", { required: true })} />
       {/* errors will return when field validation fails  */}
       {errors.description && <span className="text-white">This field is required</span>}
 
-      <button className="text-white bg-gray-600" >{isLoading ? "Loading . . ." : "Submit"}</button>
+      <button className="p-1 rounded-sm text-white bg-gray-600" >{isLoading ? "Loading . . ." : "Submit"}</button>
     </form>
         
       </section>
