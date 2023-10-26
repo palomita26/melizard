@@ -22,3 +22,10 @@ export async function DELETE (req: NextRequest) {
   const post = await prisma.posts.delete({where: {id: postId}})
   return NextResponse.json(post);
 }
+
+type PutRequestBody = { media: string, description: string, postId: number}
+export async function PUT (req: NextRequest) {
+  const { media, description, postId } = await req.json() as PutRequestBody
+  const post = await prisma.posts.update({where: {id: postId}, data:{media, description}})
+  return NextResponse.json(post);
+}
