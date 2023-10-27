@@ -28,12 +28,20 @@ export default function CreatePostView() {
         method:"POST", 
         body: JSON.stringify(data)
       })
-      mutate()
-      toast.success("Your Melizard is posted!")
-      reset()
-    } catch (e) {
+      console.log(response)
+      if (response.ok) {
+        mutate()
+        toast.success("Your Melizard is posted!")
+        reset()
+      } else if (response.status === 401) {
+        throw new Error("You must be signed in to create a post")
+      } else {
+        throw new Error("No Melizard posted, sorry :'(")
+      }
+
+    } catch (e: any) {
       console.error(e)
-      toast.error("No Melizard posted, sorry :'(")
+      toast.error(e.message ?? "Oops something went wrong")
     } finally {
       setIsLoading(false)
     }
@@ -48,7 +56,8 @@ export default function CreatePostView() {
       {/* "handleSubmit" will validate your inputs before invoking "onSubmit" */}
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3 text-black">
       {/* register your input into the hook by invoking the "register" function */}
-      <input className="rounded-sm p-2" placeholder="media" {...register("media")} />
+      <input className="rounded-sm p-2" placeholder="media" {...register("media", { required: true })} />
+      {errors.media && <span className="text-white">This field is required</span>}
 
       {/* include validation with required or other standard HTML validation rules */}
       <input className="rounded-sm p-2" placeholder="description" {...register("description", { required: true })} />

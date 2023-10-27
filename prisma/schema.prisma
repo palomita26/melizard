@@ -8,10 +8,13 @@ datasource db {
 }
 
 model posts {
-  id          Int       @id @default(autoincrement())
-  media       String?
-  description String?
-  timestamp   DateTime? @default(now())
+  id          Int      @id @default(autoincrement())
+  userId      String
+  media       String
+  description String
+  timestamp   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Account {
@@ -49,6 +52,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  posts         posts[]
 }
 
 model VerificationToken {

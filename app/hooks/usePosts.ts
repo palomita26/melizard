@@ -1,9 +1,9 @@
 import useSWR from 'swr'
-type Post = {
-    id: number
-    description: string
-    media: string
-    timestamp: string
+
+import { User, posts } from '@prisma/client';
+
+interface Post extends posts {
+    user: User
   }
 const fetcher = () => fetch("/api/posts").then(res => res.json() as any as Post[])
 
