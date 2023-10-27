@@ -7,12 +7,15 @@ import { Cross2Icon,Pencil2Icon } from '@radix-ui/react-icons'
 import { useState } from "react"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { stringify } from "querystring";
+import { useSession } from "next-auth/react";
 
 
 
 export default function PostsView() {
+  const { data: session } = useSession()
+  console.log({ session })
     const {posts, error, isLoading, mutate} = usePosts()
-
+    console.log(posts)
      const handleDelete = async (postId: number) => {
         console.log("click ", postId)
         const response = await fetch("/api/posts", {
@@ -33,8 +36,24 @@ export default function PostsView() {
         {posts?.map((post)=>{
           return(
             <div className="bg-gray-600 mb-10 py-3 rounded-md w-full max-w-md" key={post.id}>
-             <div className="flex justify-end cursor-pointer"> 
+             <div className="flex justify-between cursor-pointer mb-5"> 
 
+               <div className="flex items-center gap-3 ml-2">
+                <Image
+                className="rounded-full"
+                src={post.user.image ?? ""}
+                alt={post.user.name ?? "username"}
+                width={35}
+                height={35}
+                priority
+                unoptimized
+                />
+                {post.user.name}
+               </div>
+
+
+              { session?.user.id === post.userId && <div>
+            {/* Edit Dialog */}
 
             <Dialog.Root>
                  <Dialog.Trigger asChild>
@@ -71,7 +90,7 @@ export default function PostsView() {
                                 unoptimized
                                 />
                             <p className="ml-3">
-                                {post.timestamp}
+                                {post.timestamp.toString()}
                             </p>
                         </div>
                         <UpdateForm
@@ -127,7 +146,7 @@ export default function PostsView() {
                                 unoptimized
                                 />
                             <p className="ml-3">
-                                {post.timestamp}
+                                {post.timestamp.toString()}
                             </p>
                         </div>
                         <div className="flex space-x-10 justify-center">
@@ -145,7 +164,7 @@ export default function PostsView() {
                     </Dialog.Content>
                 </Dialog.Portal>
             </Dialog.Root>
-
+            </div>}
            
              </div>
               <p className="ml-3 text-lg">
@@ -162,7 +181,7 @@ export default function PostsView() {
                 unoptimized
                 />
               <p className="ml-3">
-                {post.timestamp}
+                {post.timestamp.toString()}
               </p>
             </div>
           )

@@ -5,8 +5,16 @@ import { PrismaClient } from "@prisma/client"
 
 const prisma = new PrismaClient()
 
-const options: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(prisma),
+    callbacks: {
+      session: async ({ session, user }) => {
+        if (session?.user) {
+          session.user.id = user.id;
+        }
+        return session;
+      },
+    },
     providers: [
       GoogleProvider({
         clientId: process.env.GOOGLE_ID as string,
@@ -23,6 +31,6 @@ const options: NextAuthOptions = {
     secret: process.env.NEXTAUTH_SECRET
   }
 
-const handler = NextAuth(options)
+const handler = NextAuth(authOptions)
 
 export { handler as GET, handler as POST }
