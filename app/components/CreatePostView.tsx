@@ -49,7 +49,7 @@ export default function CreatePostView() {
  return(
     <section
         id="create"
-        className="text-sm h-full py-12"
+        className="text-sm h-full py-12 w-full max-w-sm px-3 sm:px-0"
       >
         <h1 className="mx-auto text-3xl w-fit pb-10">{"Create Post"}</h1>
       
@@ -64,7 +64,7 @@ export default function CreatePostView() {
       {/* errors will return when field validation fails  */}
       {errors.description && <span className="text-white">This field is required</span>}
 
-      <button className="p-1 rounded-sm text-white bg-gray-600" >{isLoading ? "Loading . . ." : "Submit"}</button>
+      <button className="p-1 rounded-sm text-white bg-gray-600 hover:bg-gray-500" >{isLoading ? "Loading . . ." : "Submit"}</button>
     </form>
         
       </section>
