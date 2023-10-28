@@ -8,6 +8,7 @@ import { useState } from "react"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { stringify } from "querystring";
 import { useSession } from "next-auth/react";
+import { formatDistance, subDays } from "date-fns";
 
 
 
@@ -181,7 +182,7 @@ export default function PostsView() {
                 unoptimized
                 />
               <p className="ml-3">
-                {post.timestamp.toString()}
+                {formatDistance(subDays(new Date(post.timestamp), 0), new Date(), { addSuffix: true })}
               </p>
             </div>
           )
