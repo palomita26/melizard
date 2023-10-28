@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client"
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]/route";
+import { File, Web3Storage } from 'web3.storage';
+
 const prisma = new PrismaClient();
 
 export async function GET(req: NextRequest) {
@@ -17,12 +19,16 @@ export async function POST(req: NextRequest) {
   if (!session) {
     return new Response("", { status: 401 })
   }
-
-
-  console.log(session)
-  const { media, description } = await req.json() as PostRequestBody
-  const post = await prisma.posts.create({data: {media, description, userId: session.user.id}});
-  return NextResponse.json(post);
+  const data = await req.formData()
+   const media = data.get('media') as any as File
+   const description = data.get('description') as any as string
+  
+  const client = new Web3Storage({token: process.env.WEB3STORAGE_TOKEN as string})
+  const cid = await client.put([media])
+  
+  const httpsLink = `https://${cid}.ipfs.w3s.link/${media.name}`
+  const post = await prisma.posts.create({data: {media: httpsLink, description, userId: session.user.id}});
+  return NextResponse.json(cid);
 }
 
 type DeleteRequestBody = { postId: number }
