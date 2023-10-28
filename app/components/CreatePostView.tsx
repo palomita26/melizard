@@ -5,7 +5,7 @@ import { usePosts } from "../hooks/usePosts";
 import toast from "react-hot-toast";
 
 type Inputs = {
-  media: string 
+  media: File[] 
   description: string
 }
 
@@ -24,11 +24,14 @@ export default function CreatePostView() {
     }
     try {
       setIsLoading(true)
+      const formData = new FormData()
+      formData.set('media', data.media[0])
+      formData.set('description', data.description)
       const response = await fetch("/api/posts", {
         method:"POST", 
-        body: JSON.stringify(data)
+        body: formData
       })
-      console.log(response)
+      
       if (response.ok) {
         mutate()
         toast.success("Your Melizard is posted!")
@@ -56,7 +59,7 @@ export default function CreatePostView() {
       {/* "handleSubmit" will validate your inputs before invoking "onSubmit" */}
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3 text-black">
       {/* register your input into the hook by invoking the "register" function */}
-      <input className="rounded-sm p-2" placeholder="media" {...register("media", { required: true })} />
+      <input type="file" className="rounded-sm p-2" placeholder="media" {...register("media", { required: true })} />
       {errors.media && <span className="text-white">This field is required</span>}
 
       {/* include validation with required or other standard HTML validation rules */}
