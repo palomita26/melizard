@@ -10,7 +10,7 @@ type Props = {
   post: Post;
   showEdit: boolean;
   className?: string;
-  userId: string;
+  userId?: string;
   reload?: () => void;
 };
 export default function MelizardPost({
