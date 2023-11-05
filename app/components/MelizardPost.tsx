@@ -3,17 +3,47 @@ import EditPostsDialog from "./EditPostsDialog";
 import DeleteDialog from "./DeleteDialog";
 import { formatDistance, subDays } from "date-fns";
 import { Post } from "../hooks/usePosts";
+import LizardIcon from "./Icons/LizardIcon";
+import toast from "react-hot-toast";
 
 type Props = {
   post: Post;
   showEdit: boolean;
   className?: string;
+  userId?: string;
+  reload?: () => void;
 };
 export default function MelizardPost({
   post,
   showEdit,
   className = "",
+  userId,
+  reload,
 }: Props) {
+  console.log(post);
+  const isLiked = post.likes.some((like) => like.userId === userId);
+  const handleClick = async () => {
+    console.log("like", post.id);
+    try {
+      const response = await fetch("/api/likes", {
+        method: "POST",
+        body: JSON.stringify({
+          postId: post.id,
+        }),
+      });
+      console.log(response);
+      if (response.ok) {
+        reload && reload();
+        toast.success("You like this Melizard!");
+      } else {
+        throw new Error(response.statusText);
+      }
+    } catch (e) {
+      console.error(e);
+      toast.error("Liking this Melizard failed, sorry :'(");
+    }
+  };
+
   return (
     <div
       className={`bg-gray-600 mb-10 py-3 rounded-md w-full max-w-md ${className}`}
@@ -52,11 +82,19 @@ export default function MelizardPost({
         priority
         unoptimized
       />
-      <p className="ml-3">
-        {formatDistance(subDays(new Date(post.timestamp), 0), new Date(), {
-          addSuffix: true,
-        })}
-      </p>
+      <div className="mx-3 flex justify-between">
+        <p>
+          {formatDistance(subDays(new Date(post.timestamp), 0), new Date(), {
+            addSuffix: true,
+          })}
+        </p>
+        <LizardIcon
+          className={`hover:text-green-400 cursor-pointer ${
+            isLiked ? "text-green-400" : ""
+          }`}
+          onClick={handleClick}
+        />
+      </div>
     </div>
   );
 }

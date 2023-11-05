@@ -13,10 +13,22 @@ model posts {
   media       String
   description String
   timestamp   DateTime @default(now())
-
+  likes       Like[]
+  
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model Like {
+  id          Int      @id @default(autoincrement())
+  userId      String
+  postId      Int
+  created_at  DateTime @default(now())
+
+  post posts @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId])
+}
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -53,6 +65,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   posts         posts[]
+  likes         Like[]
 }
 
 model VerificationToken {

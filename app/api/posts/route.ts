@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 
 export async function GET(req: NextRequest) {
   const posts = await prisma.posts.findMany({
-    include: { user: true },
+    include: { user: true, likes: { select: { userId: true } } },
     orderBy: { timestamp: "desc" },
   });
 
