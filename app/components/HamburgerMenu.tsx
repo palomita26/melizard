@@ -39,11 +39,9 @@ export default function HamburgerMenu() {
 
       <DropdownMenu.Portal>
         <DropdownMenu.Content className="bg-gray-800 p-4" sideOffset={10}>
-
           <DropdownMenu.Item className="py-2 text-center">
             <Link href="#posts"> Posts </Link>
           </DropdownMenu.Item>
-
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
     </DropdownMenu.Root>
