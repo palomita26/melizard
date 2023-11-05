@@ -16,7 +16,7 @@ export default function PostsView() {
 
         {posts?.map((post)=>{
           return(
-            <MelizardPost post={post} showEdit={session?.user.id === post.userId}/>
+            <MelizardPost key={post.id} post={post} showEdit={session?.user.id === post.userId}/>
           )
         })}
       </section>
