@@ -5,7 +5,7 @@ import MelizardPost from "./MelizardPost";
 
 export default function PostsView() {
   const { data: session } = useSession();
-  const { posts } = usePosts();
+  const { posts, mutate } = usePosts();
 
   return (
     <section
@@ -17,6 +17,8 @@ export default function PostsView() {
       {posts?.map((post) => {
         return (
           <MelizardPost
+            reload={mutate}
+            userId={session?.user.id}
             key={post.id}
             post={post}
             showEdit={session?.user.id === post.userId}

@@ -4,6 +4,7 @@ import { User, posts } from "@prisma/client";
 
 export interface Post extends posts {
   user: User;
+  likes: { userId: string }[];
 }
 const fetcher = () =>
   fetch("/api/posts").then((res) => res.json() as any as Post[]);
