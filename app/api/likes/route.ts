@@ -19,3 +19,17 @@ export async function POST(req: NextRequest) {
   });
   return NextResponse.json(like);
 }
+
+type DeleteRequestBody = { postId: number };
+export async function DELETE(req: NextRequest) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return new Response("", { status: 401 });
+  }
+  const { postId } = (await req.json()) as DeleteRequestBody;
+  const like = await prisma.like.delete({
+    where: { userId_postId: { postId, userId: session.user.id } },
+  });
+
+  return NextResponse.json(like);
+}
