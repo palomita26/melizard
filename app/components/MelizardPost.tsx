@@ -22,7 +22,7 @@ export default function MelizardPost({
 }: Props) {
   console.log(post);
   const isLiked = post.likes.some((like) => like.userId === userId);
-  const handleClick = async () => {
+  const handleLike = async () => {
     console.log("like", post.id);
     try {
       const response = await fetch("/api/likes", {
@@ -41,6 +41,28 @@ export default function MelizardPost({
     } catch (e) {
       console.error(e);
       toast.error("Liking this Melizard failed, sorry :'(");
+    }
+  };
+
+  const handleUnlike = async () => {
+    console.log("unlike", post.id);
+    try {
+      const response = await fetch("/api/likes", {
+        method: "DELETE",
+        body: JSON.stringify({
+          postId: post.id,
+        }),
+      });
+      console.log(response);
+      if (response.ok) {
+        reload && reload();
+        toast.success("You unliked this Melizard.");
+      } else {
+        throw new Error(response.statusText);
+      }
+    } catch (e) {
+      console.error(e);
+      toast.error("Unliking this Melizard failed, sorry :'(");
     }
   };
 
@@ -92,7 +114,7 @@ export default function MelizardPost({
           className={`hover:text-green-400 cursor-pointer ${
             isLiked ? "text-green-400" : ""
           }`}
-          onClick={handleClick}
+          onClick={isLiked ? handleUnlike : handleLike}
         />
       </div>
     </div>
