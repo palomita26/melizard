@@ -5,6 +5,7 @@ import { formatDistance, subDays } from "date-fns";
 import { Post } from "../hooks/usePosts";
 import LizardIcon from "./Icons/LizardIcon";
 import toast from "react-hot-toast";
+import CommentIcon from "./Icons/CommentIcon";
 
 type Props = {
   post: Post;
@@ -56,13 +57,36 @@ export default function MelizardPost({
       console.log(response);
       if (response.ok) {
         reload && reload();
-        toast.success("You unliked this Melizard.");
+        toast("You unliked this Melizard.");
       } else {
         throw new Error(response.statusText);
       }
     } catch (e) {
       console.error(e);
       toast.error("Unliking this Melizard failed, sorry :'(");
+    }
+  };
+
+  const postComment = async () => {
+    console.log("comment", post.id);
+    try {
+      const response = await fetch("/api/comments", {
+        method: "POST",
+        body: JSON.stringify({
+          postId: post.id,
+          text: "hello lizard",
+        }),
+      });
+      console.log(response);
+      if (response.ok) {
+        reload && reload();
+        toast.success("Comment submitted.");
+      } else {
+        throw new Error(response.statusText);
+      }
+    } catch (e) {
+      console.error(e);
+      toast.error("No comment submitted, sorry :'(");
     }
   };
 
@@ -115,6 +139,10 @@ export default function MelizardPost({
             isLiked ? "text-green-400" : ""
           }`}
           onClick={isLiked ? handleUnlike : handleLike}
+        />
+        <CommentIcon
+          className="cursor-pointer hover:text-green-400"
+          onClick={postComment}
         />
       </div>
     </div>

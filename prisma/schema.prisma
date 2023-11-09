@@ -14,7 +14,8 @@ model posts {
   description String
   timestamp   DateTime @default(now())
   likes       Like[]
-  
+  comments    Comment[]
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -28,6 +29,16 @@ model Like {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, postId])
+}
+
+model Comment {
+  id          Int     @id @default(autoincrement())
+  userId      String  
+  postId      Int
+  created_at  DateTime @default(now())
+  text        String
+  post posts @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 model Account {
   id                String  @id @default(cuid())
@@ -66,6 +77,7 @@ model User {
   sessions      Session[]
   posts         posts[]
   likes         Like[]
+  comments      Comment[]
 }
 
 model VerificationToken {
