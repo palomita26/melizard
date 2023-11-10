@@ -6,9 +6,11 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
+import CheckoutButton from "./components/CheckoutButton";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between sm:p-24">
       <div className="w-full items-center justify-between font-mono text-sm flex p-5 sm:p-0">
@@ -21,6 +23,8 @@ export default async function Home() {
           )}
         </button>
       </div>
+
+      <CheckoutButton />
 
       <div className="place-items-center p-16">
         <Image
